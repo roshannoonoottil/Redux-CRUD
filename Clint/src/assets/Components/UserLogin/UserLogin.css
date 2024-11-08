@@ -1,0 +1,59 @@
+.simple-login-form {
+    width: 350px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+  }
+  
+  .simple-login-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .simple-login-form label {
+    font-weight: bold;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  .simple-login-form input[type="email"],
+  .simple-login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .simple-login-form input[type="email"]:focus,
+  .simple-login-form input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .simple-login-form button {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .simple-login-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .simple-login-form .error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+  }
+  

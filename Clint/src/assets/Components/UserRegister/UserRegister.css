@@ -1,0 +1,37 @@
+.simple-register-form {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .simple-register-form h2 {
+    text-align: center;
+  }
+  
+  .simple-register-form label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .simple-register-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .simple-register-form button {
+    width: 100%;
+    padding: 10px;
+  }
+  .simple-register-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  h2,label{
+    color: #333;
+  }
