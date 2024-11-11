@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './UserRegister.css'
 import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
 
 function UserRegister() {
   
@@ -21,7 +22,7 @@ function UserRegister() {
       }
     };
   
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
   
       const validationErrors = {};
@@ -37,13 +38,31 @@ function UserRegister() {
       setErrors(validationErrors);
   
       if (Object.keys(validationErrors).length === 0) {
-        const formData = new FormData();
-        formData.append("userName", userName);
-        formData.append("mobile", mobile);
-        formData.append("email", email);
-        formData.append("password", password);
-        formData.append("image", image);
-  
+        const formData =  {
+          userName:'',
+          mobile:'',
+          email:'',
+          password:'',
+          image: ''
+        };
+        formData.userName= userName;
+        formData.mobile =  mobile;
+        formData.email= email;
+        formData.password= password;
+        formData.image = image;
+        console.log(formData,'formdata')
+
+        try {
+          const response = await axios.post('http://localhost:3000/user/signup',formData );
+          console.log(response);
+          if (response.status === 200) {
+            alert("Registration successful!");
+              navigate('/login');
+          }
+      } catch (error) {
+          console.error('Error uploading file:', error);
+      }
+
         console.log("Form Data Submitted:", {
           userName,
           mobile,
@@ -53,7 +72,7 @@ function UserRegister() {
         });
   
   
-        alert("Registration successful!");
+       
       }
     };
 
