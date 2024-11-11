@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './UserRegister.css'
+import {useNavigate} from 'react-router-dom'
 
 function UserRegister() {
+  
+    const navigate = useNavigate();
     const [userName, setUserName] = useState("");
     const [mobile, setMobile] = useState("");
     const [email, setEmail] = useState("");
@@ -24,7 +27,10 @@ function UserRegister() {
       const validationErrors = {};
       if (!userName) validationErrors.userName = "Username is required";
       if (mobile.length !== 10) validationErrors.mobile = "Mobile number must be 10 digits";
-      if (!email.includes("@")) validationErrors.email = "Invalid email format";
+      if (!email) { validationErrors.email = "Email is required";
+      }else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        validationErrors.email = "Invalid email address";
+      }
       if (password.length < 6) validationErrors.password = "Password must be at least 6 characters";
       if (!image) validationErrors.image = "Profile image is required";
   
@@ -46,11 +52,14 @@ function UserRegister() {
           image,
         });
   
-        // Submit formData to your API here
   
         alert("Registration successful!");
       }
     };
+
+    const handleLogin = () => {
+      navigate('/login');
+  };
   
     return (
       <div className="simple-register-form">
@@ -104,6 +113,8 @@ function UserRegister() {
           {errors.image && <p style={{ color: "red" }}>{errors.image}</p>}
   
           <button type="submit">Register</button>
+          <br />
+          <p onClick={handleLogin} style={{cursor:'pointer'}}>Already a user? Login.</p>
         </form>
       </div>
     );

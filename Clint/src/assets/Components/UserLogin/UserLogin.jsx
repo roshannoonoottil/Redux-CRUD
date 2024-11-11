@@ -23,11 +23,8 @@ function UserLogin() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      // Submit the login data
-      console.log("Logged in with:", { email, password });
 
-      // You can add the API call to submit data here
-      alert("Login successful!");
+      console.log("Logged in with:", { email, password });
     }
   };
 

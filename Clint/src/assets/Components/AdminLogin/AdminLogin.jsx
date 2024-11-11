@@ -23,11 +23,8 @@ function AdminLogin() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      // Proceed with the admin login
+      
       console.log("Admin logged in with:", { email, password });
-
-      // Add API call for login verification here
-      alert("Admin login successful!");
     }
   };
 
