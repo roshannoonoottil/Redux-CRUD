@@ -10,17 +10,17 @@ function UserRegister() {
     const [mobile, setMobile] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [image, setImage] = useState(null);
-    const [imagePreview, setImagePreview] = useState(null);
+    // const [image, setImage] = useState(null);
+    // const [imagePreview, setImagePreview] = useState(null);
     const [errors, setErrors] = useState({});
   
-    const handleImageChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        setImage(file);
-        setImagePreview(URL.createObjectURL(file));
-      }
-    };
+    // const handleImageChange = (e) => {
+    //   const file = e.target.files[0];
+    //   if (file) {
+    //     setImage(file);
+    //     setImagePreview(URL.createObjectURL(file));
+    //   }
+    // };
   
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -33,7 +33,7 @@ function UserRegister() {
         validationErrors.email = "Invalid email address";
       }
       if (password.length < 6) validationErrors.password = "Password must be at least 6 characters";
-      if (!image) validationErrors.image = "Profile image is required";
+      // if (!image) validationErrors.image = "Profile image is required";
   
       setErrors(validationErrors);
   
@@ -43,13 +43,13 @@ function UserRegister() {
           mobile:'',
           email:'',
           password:'',
-          image: ''
+          // image: ''
         };
         formData.userName= userName;
         formData.mobile =  mobile;
         formData.email= email;
         formData.password= password;
-        formData.image = image;
+        // formData.image = image;
         console.log(formData,'formdata')
 
         try {
@@ -68,7 +68,7 @@ function UserRegister() {
           mobile,
           email,
           password,
-          image,
+          // image,
         });
   
   
@@ -82,10 +82,11 @@ function UserRegister() {
   
     return (
       <div className="simple-register-form">
-        <h2>Register</h2>
+        <h2>Signup</h2>
         <form onSubmit={handleSubmit}>
           <label>Username:</label>
           <input
+            className='inp'
             type="text"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
@@ -95,6 +96,7 @@ function UserRegister() {
   
           <label>Mobile:</label>
           <input
+            className='inp'
             type="text"
             value={mobile}
             onChange={(e) => setMobile(e.target.value)}
@@ -104,6 +106,7 @@ function UserRegister() {
   
           <label>Email:</label>
           <input
+            className='inp'
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -113,6 +116,7 @@ function UserRegister() {
   
           <label>Password:</label>
           <input
+            className='inp'
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -120,7 +124,7 @@ function UserRegister() {
           />
           {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
   
-          <label>Profile Image:</label>
+         {/* <label>Profile Image:</label>
           <input type="file" onChange={handleImageChange} />
           {imagePreview && (
             <img
@@ -129,11 +133,10 @@ function UserRegister() {
               style={{ width: "100px", height: "100px", marginTop: "10px" }}
             />
           )}
-          {errors.image && <p style={{ color: "red" }}>{errors.image}</p>}
-  
-          <button type="submit">Register</button>
+          {errors.image && <p style={{ color: "red" }}>{errors.image}</p>} */}
+          <button style={{marginTop:40}} type="submit">Register</button>
           <br />
-          <p onClick={handleLogin} style={{cursor:'pointer'}}>Already a user? Login.</p>
+          <p>Already a user? <span onClick={handleLogin} style={{cursor:'pointer'}}>Login</span></p>
         </form>
       </div>
     );

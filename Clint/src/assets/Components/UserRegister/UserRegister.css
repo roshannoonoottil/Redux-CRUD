@@ -2,7 +2,7 @@
     width: 300px;
     margin: auto;
     padding: 20px;
-    background-color: #ffffff;
+    background-color: #e2dfdf;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
@@ -17,15 +17,15 @@
   }
   
   .simple-register-form input {
-    width: 100%;
+    width: 90%;
     padding: 8px;
     margin-top: 5px;
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1px solid #ccc;
   }
   
   .simple-register-form button {
-    width: 100%;
+    width: 80%;
     padding: 10px;
   }
   .simple-register-form button:hover {
@@ -34,4 +34,7 @@
   
   h2,label,p{
     color: #333;
+  }
+  span:hover{
+  color: #0056b3;
   }
