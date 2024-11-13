@@ -5,6 +5,7 @@ const upload = require('../multer/multer')
 
 router.post("/signup", upload.single('image'), userController.signup)
 router.post("/login", userController.login)
+router.get('/home',userController.home)
 
 
 

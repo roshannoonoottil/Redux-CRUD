@@ -52,7 +52,7 @@ const login = async (req, res)=>{
                         name: userData.name,
                         email: userData.email,
                         mobile: userData.mobile,
-                        // image: userData.imagePath,
+                        image: userData.imagePath,
                         createdAt: userData.createdAt,
                         }
                         const token = jwt.sign(userDetails, process.env.JWT_SCRECT)
@@ -74,13 +74,38 @@ const login = async (req, res)=>{
 }
 
 
+const home = (req, res)=>
+{
+        try{
+        console.log("Welcome to home page");
+        const authHeader = req.headers.authorization;
+        const token = authHeader && authHeader.split(' ')[1];
+
+        if(!token){
+                return res.status(401).json({success: false, message: "Unauthorized" });
+        }else{
+                jwt.verify(token, process.env.JWT_SCRECT, async (err, data)=>{
+
+                        if(err){
+                                console.log("Error in verification");
+                                res.json({success:false, message: 'Invalid token'})
+                                
+                        }else{
+                                console.log("User is verified",data);
+                                const userData = await userModel.findOne({email: data.email});
+                                res.json({success:true, message: 'token verification success',data:userData})
+                                
+                        }
+                })
+
+        }
+        }catch (e) {
+                console.log('error in the home : ', e);
+        }
+
+}
 
 
 
 
-
-
-
-
-
-module.exports = {signup, login};
+module.exports = {signup, login, home};

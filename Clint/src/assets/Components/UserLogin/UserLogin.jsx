@@ -59,7 +59,7 @@ function UserLogin() {
             type: 'LOGIN',
             payload: response.data.data
           });
-          navigate('/');
+          navigate('/home');
         } else {
           toast.error(response.data.message);
         }
