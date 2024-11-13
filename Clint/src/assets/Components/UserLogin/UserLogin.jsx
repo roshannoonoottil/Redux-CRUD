@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import {useDispatch} from 'react-redux'
 import './UserLogin.css'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
-// const dispatch = useDispatch();
+
 
 function UserLogin() {
 
@@ -10,6 +11,8 @@ function UserLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+
 
   axios.defaults.withCredentials = true;
 
@@ -35,7 +38,7 @@ function UserLogin() {
   }, []);
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = {};
@@ -54,6 +57,27 @@ function UserLogin() {
 
       console.log("Logged in with:", { email, password });
     }
+
+    try {
+      const response = await axios.post('http://localhost:3000/user/login', { email, password });
+      // setSpinner(false);
+      if (response.data.success) {
+          localStorage.setItem('token', response.data.token);
+          dispatch({
+              type: 'login',
+              payload: response.data.data
+          });
+          navigate('/');
+      } else {
+          setErrors(response.data.message);
+      }
+  } catch (error) {
+      // setSpinner(false);
+      setErrors('Error logging in. Please try again.');
+      console.error('Error logging in:', error);
+  }
+    
+
   };
 
   const register = () => {
