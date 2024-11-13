@@ -6,6 +6,8 @@ const UserRegister = lazy(()=> import('./assets/Components/UserRegister/UserRegi
 const UserLogin = lazy(()=> import('./assets/Components/UserLogin/UserLogin'))
 const AdminLogin = lazy(()=> import('./assets/Components/AdminLogin/AdminLogin'))
 const UserHome = lazy(()=> import('./assets/Components/UserHome/UserHome'))
+const UserEdit = lazy(()=> import('./assets/Components/UserEdit/UserEdit'))
+
 
 function App() {
 
@@ -18,7 +20,7 @@ function App() {
           <Route path="/signup" element={<UserRegister />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/home" element={<UserHome />} />
-
+          <Route path="/useredit" element={<UserEdit />} />
         </Routes>
       </Suspense>
     </div>

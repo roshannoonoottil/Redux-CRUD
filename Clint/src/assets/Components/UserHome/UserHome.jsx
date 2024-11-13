@@ -48,7 +48,6 @@ const logout = async () => {
   });
   setRefresh(!false)
   navigate('/');
-  // window.location.href = '/login'
 };
 
 const editUser = () => {
@@ -63,11 +62,10 @@ if (!user) {
   return <div></div>;
 }
 
-console.log("image path",user.image, user.imagePath);
 
   return (
     <div className="parentDiv">
-            <img src={user.image || user.imagePath} alt="profile" className="profile" />
+            <img src={user.image} alt="profile" className="profile" />
             <div className="userInfo">
                 <h2>{user.name}</h2>
                 <h4>{user.email}</h4>
