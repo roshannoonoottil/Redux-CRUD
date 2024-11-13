@@ -10,17 +10,17 @@ function UserRegister() {
     const [mobile, setMobile] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // const [image, setImage] = useState(null);
-    // const [imagePreview, setImagePreview] = useState(null);
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const [errors, setErrors] = useState({});
   
-    // const handleImageChange = (e) => {
-    //   const file = e.target.files[0];
-    //   if (file) {
-    //     setImage(file);
-    //     setImagePreview(URL.createObjectURL(file));
-    //   }
-    // };
+    const handleImageChange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        setImage(file);
+        setImagePreview(URL.createObjectURL(file));
+      }
+    };
   
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -33,7 +33,7 @@ function UserRegister() {
         validationErrors.email = "Invalid email address";
       }
       if (password.length < 6) validationErrors.password = "Password must be at least 6 characters";
-      // if (!image) validationErrors.image = "Profile image is required";
+      if (!image) validationErrors.image = "Profile image is required";
   
       setErrors(validationErrors);
   
@@ -43,17 +43,23 @@ function UserRegister() {
           mobile:'',
           email:'',
           password:'',
-          // image: ''
+          image: ''
         };
         formData.userName= userName;
         formData.mobile =  mobile;
         formData.email= email;
         formData.password= password;
-        // formData.image = image;
+        formData.image = image;
         console.log(formData,'formdata')
 
         try {
-          const response = await axios.post('http://localhost:3000/user/signup',formData );
+          const response = await axios.post('http://localhost:3000/user/signup',formData,
+            {
+              headers: {
+                  'Content-Type': 'multipart/form-data'
+              }
+          }
+           );
           console.log(response);
           if (response.status === 200) {
             alert("Registration successful!");
@@ -68,7 +74,7 @@ function UserRegister() {
           mobile,
           email,
           password,
-          // image,
+          image,
         });
   
   
@@ -124,7 +130,7 @@ function UserRegister() {
           />
           {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
   
-         {/* <label>Profile Image:</label>
+         <label>Profile Image:</label>
           <input type="file" onChange={handleImageChange} />
           {imagePreview && (
             <img
@@ -133,7 +139,7 @@ function UserRegister() {
               style={{ width: "100px", height: "100px", marginTop: "10px" }}
             />
           )}
-          {errors.image && <p style={{ color: "red" }}>{errors.image}</p>} */}
+          {errors.image && <p style={{ color: "red" }}>{errors.image}</p>}
           <button style={{marginTop:40}} type="submit">Register</button>
           <br />
           <p>Already a user? <span onClick={handleLogin} style={{cursor:'pointer'}}>Login</span></p>

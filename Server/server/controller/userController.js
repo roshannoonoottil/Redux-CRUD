@@ -9,6 +9,8 @@ const signup = async (req, res) => {
         try {
         console.log('signup function in controller');
         console.log(req.body);
+        console.log("image-->",req.file);
+        
         const {userName, mobile, email, password} = req.body;
         let user = await userModel.findOne({email})
         console.log("User Exist : ",user);
@@ -17,12 +19,15 @@ const signup = async (req, res) => {
         const hashPass = await bcrypt.hash(password, 10);
         console.log('hashed password', hashPass);
 
+        const imagePath = `/images/${req.file.filename}`;
+
         const userData = new userModel({
                 userName,
                 mobile,
                 email,
                 password: hashPass,
-                isAdmin:'false'
+                isAdmin:'false',
+                image: imagePath
 
         });
 

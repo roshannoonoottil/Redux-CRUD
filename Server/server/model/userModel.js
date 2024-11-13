@@ -52,11 +52,7 @@ const userData = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
-  },
-  bloodGroup: {
-    type: String,
-    trim: true,
-  },
+  }
 });
 
 module.exports = mongoose.model("user", userData);
