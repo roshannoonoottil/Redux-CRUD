@@ -20,7 +20,7 @@ function App() {
           <Route path="/signup" element={<UserRegister />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/home" element={<UserHome />} />
-          <Route path="/useredit" element={<UserEdit />} />
+          <Route path="/editUser" element={<UserEdit />} />
         </Routes>
       </Suspense>
     </div>

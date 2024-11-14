@@ -55,10 +55,11 @@ function UserLogin() {
         const response = await axios.post('http://localhost:3000/user/login', { email, password });
         if (response.data.success) {
           localStorage.setItem('token', response.data.token);
-          dispatch({
-            type: 'LOGIN',
-            payload: response.data.data
-          });
+          console.log(response.data.data,'------------------------------------login resoponse data')
+          // dispatch({
+          //   type: 'LOGIN',
+          //   payload: response.data.data
+          // });
           navigate('/home');
         } else {
           toast.error(response.data.message);
@@ -76,7 +77,7 @@ function UserLogin() {
 
   return (
     <div className="simple-login-form">
-      <h2>Login</h2>
+      <h2>User Login</h2>
       <form onSubmit={handleSubmit}>
         <label>Email:</label>
         <input

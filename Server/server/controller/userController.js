@@ -92,7 +92,7 @@ const home = (req, res)=>
                                 
                         }else{
                                 console.log("User is verified",data);
-                                const userData = await userModel.findOne({email: data.email});
+                                const userData = await userModel.findOne({email: data.email}).select('-password');
                                 res.json({success:true, message: 'token verification success',data:userData})
                                 
                         }
@@ -105,7 +105,33 @@ const home = (req, res)=>
 
 }
 
+const userEdit = async (req, res) => {
+        try {
+        console.log('updating data => ',req.body);
+        console.log('updating image => ',req.file);
+        const {userName, email, mobile, userId} = req.body
+        console.log("update details => ",userName);
+        const updateData = { userName, mobile, email };
+        
+        if (req.file) {
+                const imagePath = `/images/${req.file.filename}`;
+                updateData.image = imagePath;
+            }
+
+            const updatedUser = await userModel.findOneAndUpdate(
+                { _id: userId },   
+                { $set: updateData },  
+                { new: true, upsert: true }
+            );
+
+        console.log('Updated Data => ',updatedUser)
+        res.json({ msg: 'data updated success', data : updatedUser })
+         
+}catch(err){
+        console.log('error in user edit', err);
+}
 
 
+}
 
-module.exports = {signup, login, home};
+module.exports = {signup, login, home, userEdit};

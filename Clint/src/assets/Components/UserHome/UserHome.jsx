@@ -9,8 +9,9 @@ function UserHome() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
+  const [data,setData]=useState()
 
-  const user = useSelector((state) => state.user)
+  const user = useSelector((state) => state.user)  || data
   const isAuth = useSelector((state) => state.isAuthenticated)
 
   const token = localStorage.getItem('token');
@@ -26,7 +27,8 @@ function UserHome() {
             if (!authUser.data.success ) {
                 navigate('/login');
             } else {
-               
+               console.log(authUser,'---------------------image check')
+               setData(authUser.data.data)
                 dispatch({
                     type:'login',
                     payload:authUser.data.data
@@ -65,8 +67,9 @@ if (!user) {
 
   return (
     <div className="parentDiv">
-            <img src={user.image} alt="profile" className="profile" />
+            <img src={`http://localhost:3000${user.image}`} alt="profile" className="profile" />
             <div className="userInfo">
+              <h2>{user.userName}</h2>
                 <h2>{user.name}</h2>
                 <h4>{user.email}</h4>
                 <h4>{user.mobile}</h4>
