@@ -22,9 +22,9 @@ function AdminLogin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const authUser = await axios.get('http://localhost:3000/user/home');
+        const authUser = await axios.get('http://localhost:3000/admin/home');
         if (authUser.data.success) {
-          navigate('/');
+          navigate('/admin');
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -52,7 +52,7 @@ function AdminLogin() {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await axios.post('http://localhost:3000/user/login', { email, password });
+        const response = await axios.post('http://localhost:3000/admin/login', { email, password });
         if (response.data.success) {
           localStorage.setItem('token', response.data.token);
           console.log(response.data.data,'------------------------------------login resoponse data')
@@ -60,7 +60,7 @@ function AdminLogin() {
           //   type: 'LOGIN',
           //   payload: response.data.data
           // });
-          navigate('/home');
+          navigate('/adminhome');
         } else {
           toast.error(response.data.message);
         }
@@ -71,9 +71,6 @@ function AdminLogin() {
     }
   };
 
-  const register = () => {
-    navigate('/signup');
-  };
 
   return (
     <div className="simple-login-form">
@@ -96,8 +93,6 @@ function AdminLogin() {
         />
 
         <button type="submit">Login</button>
-        <br />
-        <p>Don't have an account? <span onClick={register} style={{ cursor: 'pointer' }}>Signup</span></p>
       </form>
 
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick pauseOnHover />

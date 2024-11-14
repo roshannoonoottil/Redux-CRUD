@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
+const adminController = require('../server/controller/adminController')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
+router.post("/login", adminController.login)
+router.get('/home', adminController.adminVerification, adminController.home);
+router.post('/deleteUser', adminController.deleteUser)
+router.get('/logout', adminController.adminLogot);
 
 module.exports = router;

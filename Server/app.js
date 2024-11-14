@@ -6,7 +6,7 @@ var router = express.Router();
 var cors = require('cors');  // Import the cors module
 
 
-var indexRouter = require('./routes/adminRoute');
+var adminRouter = require('./routes/adminRoute');
 var usersRouter = require('./routes/userRoute');
 
 var app = express();
@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/admin', adminRouter);
 app.use('/user', usersRouter);
 // router.get("/signup",(req,res)=>{
 //     console.log("hiiiiiiiiiiiiiiiiiiii")

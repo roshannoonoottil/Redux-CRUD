@@ -7,6 +7,8 @@ const UserLogin = lazy(()=> import('./assets/Components/UserLogin/UserLogin'))
 const AdminLogin = lazy(()=> import('./assets/Components/AdminLogin/AdminLogin'))
 const UserHome = lazy(()=> import('./assets/Components/UserHome/UserHome'))
 const UserEdit = lazy(()=> import('./assets/Components/UserEdit/UserEdit'))
+const AdminHome = lazy(()=> import('./assets/Components/AdminHome/Home/AdminHome'))
+
 
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/home" element={<UserHome />} />
           <Route path="/editUser" element={<UserEdit />} />
+          <Route path="/adminhome" element={<AdminHome />} />
         </Routes>
       </Suspense>
     </div>
