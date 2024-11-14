@@ -21,8 +21,9 @@ const NavBar = ({ onSearch }) => {
         <nav className="navbar">
             <div className="navbar-container">
                 <span className="navbar-brand">Admin Dashboard</span>
+                <br />
                 <div className="navbar-links">
-                    <a href="#action1" className="nav-link">Home</a>
+                    {/* <a href="#action1" className="nav-link">Home</a> */}
                 </div>
                 <div className="navbar-search">
                     <input
