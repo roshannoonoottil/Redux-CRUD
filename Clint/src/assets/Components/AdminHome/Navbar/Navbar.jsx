@@ -15,6 +15,7 @@ const NavBar = ({ onSearch }) => {
     const logout = () => {
         localStorage.removeItem('admintoken');
         window.location.href = '/admin';
+        dispatch({ type: 'LOGOUT' });
     };
 
     return (

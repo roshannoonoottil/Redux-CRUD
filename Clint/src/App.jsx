@@ -16,7 +16,7 @@ function App() {
   return (
     <Router>
     <div>
-      <Suspense>
+      <Suspense fallback={<div style={{color:"red"}}>Loading...</div>}>
         <Routes>
           <Route path="/" element={<UserLogin />} />
           <Route path="/signup" element={<UserRegister />} />

@@ -37,7 +37,7 @@ const reducer = (prevState = initialValue, action) => {
 // Persist configuration
 const persistConfig = {
     key: 'root', 
-    storage,      
+    storage, 
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
