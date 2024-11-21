@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 
 const initialValue = {
     isAuthenticated: false,
+    isAdmin: false,
     user: {
         Date:'',
         email:'',
@@ -11,7 +12,15 @@ const initialValue = {
         mobile:'',
         userName:'',
         _id:''
-    }
+    },
+    admin: { 
+        Date:'',
+        email:'',
+        image:'',
+        mobile:'',
+        userName:'',
+        _id:''
+    },
 };
 
 
@@ -27,7 +36,21 @@ const reducer = (prevState = initialValue, action) => {
             return {
                 ...prevState,
                 isAuthenticated: false,
-                user: null
+                user: { ...initialValue.user },
+            };
+            case 'ADMIN_LOGIN':
+            return {
+                ...prevState,
+                isAuthenticated: true,
+                isAdmin:true,
+                admin: action.payload
+            };
+        case 'ADMIN_LOGOUT':
+            return {
+                ...prevState,
+                isAuthenticated: false,
+                isAdmin:false,
+                admin: { ...initialValue.admin },
             };
         default:
             return prevState;

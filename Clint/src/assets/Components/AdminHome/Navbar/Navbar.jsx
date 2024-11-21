@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './NavBar.css';
+import { useDispatch } from 'react-redux';
 
 const NavBar = ({ onSearch }) => {
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
+    const dispatch = useDispatch();
 
     const searchHandle = (e) => {
         const value = e.target.value;
@@ -15,7 +17,7 @@ const NavBar = ({ onSearch }) => {
     const logout = () => {
         localStorage.removeItem('admintoken');
         window.location.href = '/admin';
-        dispatch({ type: 'LOGOUT' });
+        dispatch({ type: 'ADMIN_LOGOUT' });
     };
 
     return (

@@ -56,10 +56,10 @@ function UserLogin() {
         if (response.data.success) {
           localStorage.setItem('token', response.data.token);
           console.log(response.data.data,'------------------------------------login resoponse data')
-          // dispatch({
-          //   type: 'LOGIN',
-          //   payload: response.data.data
-          // });
+          dispatch({
+            type: 'LOGIN',
+            payload: response.data.data
+          });
           navigate('/home');
         } else {
           toast.error(response.data.message);

@@ -14,7 +14,7 @@ function AdminLogin() {
 
   axios.defaults.withCredentials = true;
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('admintoken');
   if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
@@ -54,10 +54,10 @@ function AdminLogin() {
       try {
         const response = await axios.post('http://localhost:3000/admin/login', { email, password });
         if (response.data.success) {
-          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('admintoken', response.data.token);
           console.log(response.data.data,'------------------------------------login resoponse data')
           dispatch({
-            type: 'LOGIN',
+            type: 'ADMIN_LOGIN',
             payload: response.data.data
           });
           navigate('/adminhome');

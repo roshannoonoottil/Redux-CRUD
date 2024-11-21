@@ -83,7 +83,7 @@ function UserRegister() {
     };
 
     const handleLogin = () => {
-      navigate('/login');
+      navigate('/');
   };
   
     return (
