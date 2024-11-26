@@ -40,21 +40,30 @@ const login = async (req, res) => {
 
 const adminVerification = async (req, res, next) => {
     const headers = req.headers.authorization;
-    const token = headers && headers.split(' ')[1]
+    const token = headers && headers.split(' ')[1];
+
     if (!token) {
-        res.json({ success: false, message: "NO token please login" })
-    } else {
-        jwt.verify(token, process.env.JWT_SCRECT, async (err, data) => {
-            if (err) {
-                res.json({ success: fasle })
-            } else {
-                const adminData = await userModel.findOne({ email: data.email })
-                next()
-                // res.json({ success: true, data: adminData })
-            }
-        })
+        return res.json({ success: false, message: "No token provided. Please log in." });
     }
-}
+
+    jwt.verify(token, process.env.JWT_SCRECT, async (err, data) => {
+        if (err) {
+            return res.json({ success: false, message: "Invalid token." });
+        }
+
+        const adminData = await userModel.findOne({ email: data.email });
+
+        if (!adminData || !adminData.isAdmin) {
+
+            return res.json({ success: false, message: "Unauthorized. Admin access required." });
+        }
+
+        req.admin = adminData;
+
+        next();
+    });
+};
+
 
 const home = async (req, res) => {
     try {
