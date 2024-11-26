@@ -49,6 +49,7 @@ const login = async (req, res)=>{
                 const isValidPassword = await bcrypt.compare(req.body.password, userData.password);
                 if(isValidPassword){
                         const userDetails = {
+                        userId: userData._id,
                         name: userData.name,
                         email: userData.email,
                         mobile: userData.mobile,
@@ -107,10 +108,19 @@ const home = (req, res)=>
 
 const userEdit = async (req, res) => {
         try {
+        const authHeader = req.headers.authorization;
+        const token = authHeader && authHeader.split(' ')[1];
         console.log('updating data => ',req.body);
         console.log('updating image => ',req.file);
-        const {userName, email, mobile, userId} = req.body
-        console.log("update details => ",userName);
+
+        const decoded = jwt.verify(token, process.env.USER_JWT_SCRECT);
+
+        console.log("Decoded Data => ", decoded);
+        
+        const userId = decoded.userId;
+
+        const {userName, email, mobile} = req.body
+
         const updateData = { userName, mobile, email };
         
         if (req.file) {
