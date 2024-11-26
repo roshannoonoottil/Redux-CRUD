@@ -55,7 +55,7 @@ const login = async (req, res)=>{
                         image: userData.imagePath,
                         createdAt: userData.createdAt,
                         }
-                        const token = jwt.sign(userDetails, process.env.JWT_SCRECT)
+                        const token = jwt.sign(userDetails, process.env.USER_JWT_SCRECT)
                         res.json({ success: true, token: token, data: userDetails });
                         console.log('user signin');
                         
@@ -84,7 +84,7 @@ const home = (req, res)=>
         if(!token){
                 return res.status(401).json({success: false, message: "Unauthorized" });
         }else{
-                jwt.verify(token, process.env.JWT_SCRECT, async (err, data)=>{
+                jwt.verify(token, process.env.USER_JWT_SCRECT, async (err, data)=>{
 
                         if(err){
                                 console.log("Error in verification");

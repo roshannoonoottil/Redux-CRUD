@@ -20,7 +20,7 @@ const login = async (req, res) => {
                         image: adminData.imagePath,
                         createdAt: adminData.createdAt,
                     }
-                    const token = jwt.sign(Data, process.env.JWT_SCRECT)
+                    const token = jwt.sign(Data, process.env.ADMIN_JWT_SCRECT)
                     res.json({ success: true, token: token })
                 } else {
                     res.json({ success: false, message: 'you or not otherized' })
@@ -46,7 +46,7 @@ const adminVerification = async (req, res, next) => {
         return res.json({ success: false, message: "No token provided. Please log in." });
     }
 
-    jwt.verify(token, process.env.JWT_SCRECT, async (err, data) => {
+    jwt.verify(token, process.env.ADMIN_JWT_SCRECT, async (err, data) => {
         if (err) {
             return res.json({ success: false, message: "Invalid token." });
         }
