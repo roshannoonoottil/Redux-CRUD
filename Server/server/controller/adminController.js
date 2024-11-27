@@ -19,8 +19,9 @@ const login = async (req, res) => {
                         mobile: adminData.mobile,
                         image: adminData.imagePath,
                         createdAt: adminData.createdAt,
+                        isAdmin: adminData.isAdmin,
                     }
-                    const token = jwt.sign(Data, process.env.ADMIN_JWT_SCRECT)
+                    const token = jwt.sign(Data, process.env.ADMIN_JWT_SCRECT,{ expiresIn: '1h' } )
                     res.json({ success: true, token: token })
                 } else {
                     res.json({ success: false, message: 'you or not otherized' })
@@ -37,34 +38,6 @@ const login = async (req, res) => {
 };
 
 
-
-const adminVerification = async (req, res, next) => {
-    const headers = req.headers.authorization;
-    const token = headers && headers.split(' ')[1];
-
-    if (!token) {
-        return res.json({ success: false, message: "No token provided. Please log in." });
-    }
-
-    jwt.verify(token, process.env.ADMIN_JWT_SCRECT, async (err, data) => {
-        if (err) {
-            return res.json({ success: false, message: "Invalid token." });
-        }
-
-        const adminData = await userModel.findOne({ email: data.email });
-
-        if (!adminData || !adminData.isAdmin) {
-
-            return res.json({ success: false, message: "Unauthorized. Admin access required." });
-        }
-
-        req.admin = adminData;
-
-        next();
-    });
-};
-
-
 const home = async (req, res) => {
     try {
         console.log('adminHome');
@@ -78,14 +51,22 @@ const home = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        console.log('deleteUser entered')
-        console.log(req.body)
-        await userModel.deleteOne({ email: req.body.email })
-        res.json({ success: true, data: 'email got' })
+        console.log('deleteUser entered');
+        const userEmail = req.body.email;
+
+        const user = await userModel.findOne({ email: userEmail });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        await userModel.deleteOne({ email: userEmail });
+        res.json({ success: true, message: `User with email ${userEmail} deleted successfully.` });
     } catch (e) {
-        console.log('error in the deleteUser : ', e);
+        console.log('Error in the deleteUser:', e);
+        res.status(500).json({ success: false, message: 'An error occurred during user deletion.' });
     }
-}
+};
+
 
 const adminLogot = (req, res) => {
     try {
@@ -97,4 +78,4 @@ const adminLogot = (req, res) => {
 }
 
 
-module.exports = {login, adminVerification, home, deleteUser, adminLogot};
+module.exports = {login, home, deleteUser, adminLogot};

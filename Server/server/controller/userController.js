@@ -56,7 +56,7 @@ const login = async (req, res)=>{
                         image: userData.imagePath,
                         createdAt: userData.createdAt,
                         }
-                        const token = jwt.sign(userDetails, process.env.USER_JWT_SCRECT)
+                        const token = jwt.sign(userDetails, process.env.USER_JWT_SCRECT,{ expiresIn: '1h' } )
                         res.json({ success: true, token: token, data: userDetails });
                         console.log('user signin');
                         
@@ -75,73 +75,59 @@ const login = async (req, res)=>{
 }
 
 
-const home = (req, res)=>
-{
-        try{
-        console.log("Welcome to home page");
-        const authHeader = req.headers.authorization;
-        const token = authHeader && authHeader.split(' ')[1];
-
-        if(!token){
-                return res.status(401).json({success: false, message: "Unauthorized" });
-        }else{
-                jwt.verify(token, process.env.USER_JWT_SCRECT, async (err, data)=>{
-
-                        if(err){
-                                console.log("Error in verification");
-                                res.json({success:false, message: 'Invalid token'})
-                                
-                        }else{
-                                console.log("User is verified",data);
-                                const userData = await userModel.findOne({email: data.email}).select('-password');
-                                res.json({success:true, message: 'token verification success',data:userData})
-                                
-                        }
-                })
-
-        }
-        }catch (e) {
-                console.log('error in the home : ', e);
-        }
-
-}
-
-const userEdit = async (req, res) => {
+const home = async (req, res) => {
         try {
-        const authHeader = req.headers.authorization;
-        const token = authHeader && authHeader.split(' ')[1];
-        console.log('updating data => ',req.body);
-        console.log('updating image => ',req.file);
+            console.log("Welcome to home page");
+    
+            const userData = await userModel.findOne({ email: req.user.email }).select('-password');
+    
+            if (!userData) {
+                return res.status(404).json({ success: false, message: "User not found" });
+            }
+    
+            res.json({
+                success: true,
+                message: "Token verification success",
+                data: userData,
+            });
+        } catch (e) {
+            console.log("Error in the home controller:", e);
+            res.status(500).json({ success: false, message: "Internal server error" });
+        }
+    };
+    
 
-        const decoded = jwt.verify(token, process.env.USER_JWT_SCRECT);
+    const userEdit = async (req, res) => {
+        try {
 
-        console.log("Decoded Data => ", decoded);
-        
-        const userId = decoded.userId;
-
-        const {userName, email, mobile} = req.body
-
-        const updateData = { userName, mobile, email };
-        
-        if (req.file) {
+            const userId = req.user.userId;
+    
+            console.log('updating data => ', req.body);
+            console.log('updating image => ', req.file);
+    
+            const { userName, email, mobile } = req.body;
+    
+            const updateData = { userName, mobile, email };
+    
+            if (req.file) {
                 const imagePath = `/images/${req.file.filename}`;
                 updateData.image = imagePath;
             }
-
+    
             const updatedUser = await userModel.findOneAndUpdate(
-                { _id: userId },   
-                { $set: updateData },  
+                { _id: userId },
+                { $set: updateData },
                 { new: true, upsert: true }
             );
-
-        console.log('Updated Data => ',updatedUser)
-        res.json({ msg: 'data updated success', data : updatedUser })
-         
-}catch(err){
-        console.log('error in user edit', err);
-}
-
-
-}
+    
+            console.log('Updated Data => ', updatedUser);
+            res.json({ msg: 'Data updated successfully', data: updatedUser });
+    
+        } catch (err) {
+            console.log('Error in user edit:', err);
+            res.status(500).json({ msg: 'Internal server error' });
+        }
+    };
+    
 
 module.exports = {signup, login, home, userEdit};
