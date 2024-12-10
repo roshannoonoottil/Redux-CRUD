@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import './UserEdit.css'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import './UserEdit.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function UserEdit() {
-
-
     const navigate = useNavigate();
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState("");
@@ -14,7 +12,7 @@ function UserEdit() {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [errors, setErrors] = useState({});
-    const [newImage,setNewImage]=useState(null);
+    const [newImage, setNewImage] = useState(null);
 
     const token = localStorage.getItem('token');
     if (token) {
@@ -27,26 +25,54 @@ function UserEdit() {
                 const response = await axios.get('http://localhost:3000/user/home');
                 const userData = response.data;
                 setUserId(userData.data._id);
-                
                 setUserName(userData.data.userName);
                 setMobile(userData.data.mobile);
                 setEmail(userData.data.email);
                 setImagePreview(userData.data.image);
-
-                console.log(userData,'------edit user data')
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
         };
-
         fetchUserData();
     }, []);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+        const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+
         if (file) {
+            // Check file type
+            if (!allowedTypes.includes(file.type)) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    image: "Only JPG, JPEG, PNG, and WEBP files are allowed.",
+                }));
+                setImage(null);
+                setNewImage(null);
+                return;
+            }
+
+            // Check file size
+            if (file.size > maxSize) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    image: "File size must be less than 2MB.",
+                }));
+                setImage(null);
+                setNewImage(null);
+                return;
+            }
+
+            // If validations pass
             setImage(file);
             setNewImage(URL.createObjectURL(file));
+
+            // Clear any previous image errors
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                image: null,
+            }));
         }
     };
 
@@ -55,7 +81,13 @@ function UserEdit() {
 
         const validationErrors = {};
         if (!userName) validationErrors.userName = "Username is required";
-        // if (mobile.length !== 10) validationErrors.mobile = "Mobile number must be 10 digits";
+
+        if (!mobile) {
+            validationErrors.mobile = "Mobile number is required";
+        } else if (!/^\d{10}$/.test(mobile)) {
+            validationErrors.mobile = "Mobile number must be exactly 10 digits";
+        }
+
         if (!email) {
             validationErrors.email = "Email is required";
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -64,15 +96,6 @@ function UserEdit() {
         if (!image && !imagePreview) validationErrors.image = "Profile image is required";
 
         setErrors(validationErrors);
-
-
-        console.log("Form Data Submitted:", {
-            userName,
-            mobile,
-            email,
-            image,
-          });
-    
 
         if (Object.keys(validationErrors).length === 0) {
             const formData = new FormData();
@@ -91,7 +114,7 @@ function UserEdit() {
 
                 if (response.status === 200) {
                     alert("Profile updated successfully!");
-                    navigate('/home'); 
+                    navigate('/home');
                 }
             } catch (error) {
                 console.error('Error updating profile:', error);
@@ -142,19 +165,19 @@ function UserEdit() {
                 <input type="file" onChange={handleImageChange} />
                 {imagePreview && (
                     <>
-                    {
-                        newImage ?
-                        <img src={newImage} 
-                        alt='NewImage'
-                        style={{ width: "100px", height: "100px", marginTop: "10px" }} />
-                        :
-                        <img
-                        src={`http://localhost:3000${imagePreview}` || imagePreview}
-                        alt="Profile Preview"
-                        style={{ width: "100px", height: "100px", marginTop: "10px" }}
-                    />
-                    }
-                    
+                        {newImage ? (
+                            <img
+                                src={newImage}
+                                alt="NewImage"
+                                style={{ width: "100px", height: "100px", marginTop: "10px" }}
+                            />
+                        ) : (
+                            <img
+                                src={`http://localhost:3000${imagePreview}` || imagePreview}
+                                alt="Profile Preview"
+                                style={{ width: "100px", height: "100px", marginTop: "10px" }}
+                            />
+                        )}
                     </>
                 )}
                 {errors.image && <p style={{ color: "red" }}>{errors.image}</p>}
@@ -166,6 +189,4 @@ function UserEdit() {
     );
 }
 
-
-
-export default UserEdit
+export default UserEdit;

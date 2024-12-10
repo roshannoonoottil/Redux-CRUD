@@ -46,7 +46,7 @@ const AdminHome = () => {
                     navigate('/adminhome')
                 } else {
                     navigate('/admin')
-                    dispatch({tyep:'ADMIN_LOGOUT'})
+                    dispatch({type:'ADMIN_LOGOUT'})
                     console.log('error');
                 }
             } catch (error) {
