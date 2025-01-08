@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './NavBar.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { increment } from '../../../Redux/store';
+
 
 const NavBar = ({ onSearch }) => {
+    const count = useSelector((prevState)=>prevState.count)
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const dispatch = useDispatch();
@@ -39,6 +42,10 @@ const NavBar = ({ onSearch }) => {
                     <button className="btn btn-outline-danger" onClick={logout}>
                         LogOut
                     </button>
+                    {/* <span>{count}</span>
+                <button onClick={()=>dispatch(increment())}>
+                +
+                </button> */}
                 </div>
             </div>
         </nav>
