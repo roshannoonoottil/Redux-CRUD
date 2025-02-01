@@ -22,14 +22,7 @@ const initialValue = {
         userName: '',
         _id: '',
     },
-    count:0
 };
-
-const INCREMENT = 'INCREMENT'
-const DECREMENT = "DECREMENT"
-
-export const increment = ()=>( {type:INCREMENT})
-export const decrement= ()=>( {type:DECREMENT})
 
 // Reducer
 const reducer = (prevState = initialValue, action) => {
@@ -60,12 +53,7 @@ const reducer = (prevState = initialValue, action) => {
                 isAdmin: false,
                 admin: { ...initialValue.admin },
             };
-        case INCREMENT:{
-            return{...prevState, count : prevState.count + 1}
-        }
-        case DECREMENT :{
-            return{...prevState, count : prevState.count - 1}
-        }
+        
         default:
             return prevState;
     }
