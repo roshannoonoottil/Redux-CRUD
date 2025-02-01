@@ -76,6 +76,7 @@ const Body = ({ searchData }) => {
                     ))}
                 </tbody>
             </table>
+            <h6 style={{color:'red'}}>Users Count : {filteredUserData.length}</h6>
         </div>
     );
 };
