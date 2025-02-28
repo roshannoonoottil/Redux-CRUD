@@ -42,14 +42,12 @@ const reducer = (prevState = initialValue, action) => {
         case 'ADMIN_LOGIN':
             return {
                 ...prevState,
-                isAuthenticated: true,
                 isAdmin: true,
                 admin: action.payload,
             };
         case 'ADMIN_LOGOUT':
             return {
                 ...prevState,
-                isAuthenticated: false,
                 isAdmin: false,
                 admin: { ...initialValue.admin },
             };
