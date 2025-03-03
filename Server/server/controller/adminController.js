@@ -22,7 +22,7 @@ const login = async (req, res) => {
                         isAdmin: adminData.isAdmin,
                     }
                     const token = jwt.sign(Data, process.env.ADMIN_JWT_SCRECT,{ expiresIn: '1h' } )
-                    res.json({ success: true, token: token })
+                    res.json({ success: true, token: token, data: Data  })
                 } else {
                     res.json({ success: false, message: 'you or not otherized' })
                 }

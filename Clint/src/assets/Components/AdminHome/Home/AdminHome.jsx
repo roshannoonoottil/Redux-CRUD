@@ -24,7 +24,7 @@ const AdminHome = () => {
         setsearchData(data);
     };
 
-    const token = localStorage.getItem('admintoken');
+    const token = localStorage.getItem('crud_admintoken');
     if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }

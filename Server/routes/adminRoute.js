@@ -9,4 +9,4 @@ router.get('/home', verifyAdmin, adminController.home);
 router.post('/deleteUser', verifyAdmin, adminController.deleteUser)
 router.get('/logout', verifyAdmin, adminController.adminLogot);
 
-module.exports = router;
+module.exports = router;    

@@ -14,7 +14,7 @@ function UserLogin() {
 
   axios.defaults.withCredentials = true;
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('crud_usertoken');
   if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
@@ -54,7 +54,7 @@ function UserLogin() {
       try {
         const response = await axios.post('http://localhost:3000/user/login', { email, password });
         if (response.data.success) {
-          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('crud_usertoken', response.data.token);
           console.log(response.data.data,'------------------------------------login resoponse data')
           dispatch({
             type: 'LOGIN',

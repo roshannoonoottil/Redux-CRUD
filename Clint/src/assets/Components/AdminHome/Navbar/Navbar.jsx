@@ -16,7 +16,7 @@ const NavBar = ({ onSearch }) => {
     };
 
     const logout = () => {
-        localStorage.removeItem('admintoken');
+        localStorage.removeItem('crud_admintoken');
         window.location.href = '/admin';
         dispatch({ type: 'ADMIN_LOGOUT' });
     };

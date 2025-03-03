@@ -14,14 +14,17 @@ function AdminLogin() {
 
   axios.defaults.withCredentials = true;
 
-  const token = localStorage.getItem('admintoken');
+  const token = localStorage.getItem('crud_admintoken');
   if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // console.log(localStorage.getItem('admintoken'));
+        // console.log("Auth Header being sent:", axios.defaults.headers.common['Authorization']); // Debugging
         const authUser = await axios.get('http://localhost:3000/admin/home');
         if (authUser.data.success) {
           navigate('/admin');
@@ -54,7 +57,7 @@ function AdminLogin() {
       try {
         const response = await axios.post('http://localhost:3000/admin/login', { email, password });
         if (response.data.success) {
-          localStorage.setItem('admintoken', response.data.token);
+          localStorage.setItem('crud_admintoken', response.data.token);
           console.log(response.data.data,'------------------------------------login resoponse data')
           dispatch({
             type: 'ADMIN_LOGIN',

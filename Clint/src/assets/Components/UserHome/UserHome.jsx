@@ -17,7 +17,7 @@ function UserHome() {
   console.log("user Auth ========>",isAuth);
 
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('crud_usertoken');
   if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
@@ -50,7 +50,7 @@ function UserHome() {
   }, [isAuth, navigate, dispatch]);
 
   const logout = () => {
-    localStorage.setItem('token', '');
+    localStorage.removeItem('crud_usertoken');
     dispatch({
       type: 'LOGOUT', 
     });
